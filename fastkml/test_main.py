@@ -133,9 +133,17 @@ class BuildKmlTestCase(unittest.TestCase):
                 '<kml xmlns="http://www.opengis.net/kml/2.2"/>' [:43])
         else:
             if hasattr(etree, 'register_namespace'):
-                self.assertEqual(str(k.to_string())[:51], '<kml:kml xmlns:kml="http://www.opengis.net/kml/2.2" />'[:51])
+                self.assertEqual(
+                    str(k.to_string())[:51],
+                    '<kml:kml xmlns:kml="http://www.opengis.net/kml/2.2" />'[
+                        :51]
+                )
             else:
-                self.assertEqual(str(k.to_string())[:51], '<ns0:kml xmlns:ns0="http://www.opengis.net/kml/2.2" />'[:51])
+                self.assertEqual(
+                    str(k.to_string())[:51],
+                    '<ns0:kml xmlns:ns0="http://www.opengis.net/kml/2.2" />'[
+                        :51]
+                )
 
         k2 = kml.KML()
         k2.from_string(k.to_string())
@@ -928,7 +936,7 @@ class KmlFromStringTestCase(unittest.TestCase):
 
     def test_linarring_placemark(self):
         doc = kml.KML()
-        doc.from_string( """<kml xmlns="http://www.opengis.net/kml/2.2">
+        doc.from_string("""<kml xmlns="http://www.opengis.net/kml/2.2">
         <Placemark>
           <LinearRing>
             <coordinates>0.0,0.0 1.0,0.0 1.0,1.0 0.0,0.0</coordinates>
@@ -1115,8 +1123,6 @@ class StyleFromStringTestCase(unittest.TestCase):
         k2 = kml.KML()
         k2.from_string(k.to_string())
         self.assertEqual(k2.to_string(), k.to_string())
-
-
 
     def test_labelstyle(self):
         doc = """<kml xmlns="http://www.opengis.net/kml/2.2">
@@ -1956,9 +1962,10 @@ class GetGeometryTestCase(unittest.TestCase):
         g.from_string(doc)
         self.assertEqual(
             g.geometry.__geo_interface__,
-            {'type': 'LineString',
-             'bbox': (0.0, 0.0, 1.0, 1.0),
-             'coordinates': ((0.0, 0.0), (1.0, 1.0))})
+            {
+                'type': 'LineString',
+                'coordinates': ((0.0, 0.0), (1.0, 1.0))}
+        )
 
     def test_linearring(self):
         doc = """<kml:LinearRing xmlns:kml="http://www.opengis.net/kml/2.2">
@@ -1969,11 +1976,12 @@ class GetGeometryTestCase(unittest.TestCase):
         g = Geometry()
         g.from_string(doc)
         self.assertEqual(
-            g.geometry.__geo_interface__, {
+            g.geometry.__geo_interface__,
+            {
                 'type': 'LinearRing',
-                'bbox': (0.0, 0.0, 1.0, 1.0),
                 'coordinates': ((0.0, 0.0), (1.0, 0.0), (1.0, 1.0), (0.0, 0.0))
-            })
+            }
+        )
 
     def test_polygon(self):
         doc = """<kml:Polygon xmlns:kml="http://www.opengis.net/kml/2.2">
@@ -1988,9 +1996,9 @@ class GetGeometryTestCase(unittest.TestCase):
         g = Geometry()
         g.from_string(doc)
         self.assertEqual(
-            g.geometry.__geo_interface__, {
+            g.geometry.__geo_interface__,
+            {
                 'type': 'Polygon',
-                'bbox': (0.0, 0.0, 1.0, 1.0),
                 'coordinates': ((
                     (0.0, 0.0), (1.0, 0.0), (1.0, 1.0), (0.0, 0.0)
                 ), )
